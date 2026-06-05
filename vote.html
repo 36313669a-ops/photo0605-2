@@ -1,0 +1,32 @@
+<script>
+
+fetch('photographers.json')
+.then(res => res.json())
+.then(data => {
+
+    const form = document.getElementById('voteForm');
+
+    data.forEach(item => {
+
+        form.innerHTML += `
+        <div class="card">
+            <label>
+                <input type="radio" name="vote" value="${item.id}" required>
+                ${item.id} ｜ ${item.name}
+            </label>
+        </div>
+        `;
+    });
+
+    form.innerHTML += `<button type="submit">送出投票</button>`;
+});
+
+document.addEventListener('submit', function(e){
+    e.preventDefault();
+
+    let choice = document.querySelector('input[name="vote"]:checked').value;
+
+    alert("你投給：" + choice);
+});
+
+</script>
