@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+
+<title>攝影比賽投票</title>
+
+<style>
+
+body{
+    font-family:Microsoft JhengHei;
+    max-width:1000px;
+    margin:auto;
+    padding:20px;
+}
+
+.card{
+    border:1px solid #ddd;
+    border-radius:10px;
+    padding:15px;
+    margin-bottom:10px;
+}
+
+button{
+    width:100%;
+    padding:15px;
+    background:#0077cc;
+    color:white;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>攝影比賽投票</h1>
+
+<p>請選擇您最喜愛的作品</p>
+
+<form id="voteForm">
+
+<div id="list"></div>
+
+<button type="submit">
+送出投票
+</button>
+
+</form>
+
+<script>
+
+fetch('photographers.json')
+.then(r=>r.json())
+.then(data=>{
+
+    const list=document.getElementById('list');
+
+    data.forEach(item=>{
+
+        list.innerHTML += `
+        <div class="card">
+
+            <label>
+
+                <input
+                    type="radio"
+                    name="photo"
+                    value="${item.id}"
+                    required>
+
+                <strong>${item.id}</strong>
+
+                ｜
+
+                ${item.photographer}
+
+            </label>
+
+        </div>
+        `;
+    });
+
+});
+
+document.getElementById('voteForm')
+.addEventListener('submit',function(e){
+
+    e.preventDefault();
+
+    let choice =
+    document.querySelector('input[name=photo]:checked').value;
+
+    // Google Form欄位
+    let formUrl=
+    "https://docs.google.com/forms/d/e/你的FORMID/viewform?usp=pp_url&entry.123456="+choice;
+
+    window.open(formUrl);
+
+});
+
+</script>
+
+</body>
+</html>
